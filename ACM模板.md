@@ -595,7 +595,7 @@ int main()
 
 ```c++
 typedef long long ll;
-ll ksm(ll n,ll x,ll mod){
+ll ksm(ll x,ll n,ll mod){
 	ll res = 1;
 	x = x % mod;
 	while(x > 0){
