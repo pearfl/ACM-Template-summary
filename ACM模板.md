@@ -611,7 +611,50 @@ ll ksm(ll x,ll n,ll mod){
 
 http://blog.csdn.net/wust_zzwh/article/details/52058209
 
-
+```c++
+#include<bits/stdc++.h>  
+using namespace std;  
+typedef long long ll;  
+const int MOD=10000;  
+struct mat  
+{  
+    ll a[2][2];  
+};  
+mat mat_mul(mat x,mat y)  
+{  
+    mat res;  
+    memset(res.a,0,sizeof(res.a));  
+    for(int i=0;i<2;i++)  
+        for(int j=0;j<2;j++)  
+        for(int k=0;k<2;k++)  
+        res.a[i][j]=(res.a[i][j]+x.a[i][k]*y.a[k][j])%MOD;  
+    return res;  
+}  
+void mat_pow(int n)  
+{  
+    mat c,res;  
+    c.a[0][0]=c.a[0][1]=c.a[1][0]=1;  
+    c.a[1][1]=0;  
+    memset(res.a,0,sizeof(res.a));  
+    for(int i=0;i<2;i++) res.a[i][i]=1;  
+    while(n)  
+    {  
+        if(n&1) res=mat_mul(res,c);  
+        c=mat_mul(c,c);  
+        n=n>>1;  
+    }  
+    printf("%I64d\n",res.a[0][1]);  
+}  
+int main()  
+{  
+    int n;  
+    while(~scanf("%d",&n)&&n!=-1)  
+    {  
+        mat_pow(n);  
+    }  
+    return 0;  
+}
+```
 
 ### 14、最短路
 
@@ -810,10 +853,81 @@ http://blog.csdn.net/qq_32400847/article/details/51336300
 ### 24、数制转换
 
 http://blog.csdn.net/laichilizi/article/details/79381732
+ 
 
 
+### 25、LCS
 
-### 
+只计算LCS的数目
+```c++
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
 
+char a[1005],b[1005],ans[1005];
+int dp[1005][1005];
+int main()
+{
+	//freopen("input.txt","r",stdin);
 
+	scanf("%s %s",a+1,b+1);
+	int n = strlen(a+1);
+	int m = strlen(b+1);
+	memset(dp,0,sizeof(dp));
 
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			if(a[i] == b[j]){
+				dp[i][j] = dp[i-1][j-1] + 1;
+			}else{
+				dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+			}
+		}
+	}
+
+	cout<<dp[n][m]<<endl;
+
+	return 0;
+}
+```
+
+除了LCS的数目，还输出对应的子串
+```c++
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+char a[1005],b[1005],ans[1005];
+int dp[1005][1005];
+int main()
+{
+	//freopen("input.txt","r",stdin);
+
+	scanf("%s %s",a+1,b+1);
+	int n = strlen(a+1);
+	int m = strlen(b+1);
+	memset(dp,0,sizeof(dp));
+
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			if(a[i] == b[j]){
+				dp[i][j] = dp[i-1][j-1] + 1;
+			}else{
+				dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+			}
+		}
+	}
+	int cur = 0;
+	for(int i=n,j=m;dp[i][j];--i,--j){
+		while(dp[i][j] == dp[i-1][j]) --i;
+		while(dp[i][j] == dp[i][j-1]) --j;
+		ans[cur++] = a[i];
+	}
+
+	reverse(ans,ans+cur);
+	//ans[cur] = '\0';
+	printf("%s\n",ans);
+
+	return 0;
+}
+```
