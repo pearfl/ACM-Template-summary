@@ -1037,3 +1037,54 @@ int main(){
 ```
 
 ### 29、最小正字段和
+```c++
+#include<iostream>  
+#include<cstdio>  
+#include<cstring>  
+#include<algorithm>  
+using namespace std;  
+typedef long long LL;  
+#define INF 0x3f3f3f3f;
+
+struct node{  
+    LL a;  
+    int id_mi;  
+    int id_ma;  
+};  
+bool operator <(node a,node b){  
+    return a.a<b.a;  
+}  
+node dp[50010];  
+int main(){  
+    int n,a,i,j;  
+    scanf("%d",&n);  
+    LL ans=0;  
+    dp[0].a=0;  
+    dp[0].id_mi=0;  
+    dp[0].id_ma=0;  
+    for(i=1;i<=n;i++){  
+        scanf("%lld",&dp[i].a);  
+        dp[i].a+=dp[i-1].a;  
+        dp[i].id_mi=i;  
+        dp[i].id_ma=i;  
+          
+    }  
+    sort(dp,dp+1+n);  
+    j=0;  
+    for(i=1;i<=n;i++)  
+    {  
+        if(dp[i].a==dp[j].a){  
+            dp[j].id_mi=max(dp[j].id_mi,dp[i].id_mi);  
+            dp[j].id_ma=min(dp[j].id_ma,dp[i].id_ma);  
+        }  
+        else dp[++j]=dp[i];  
+    }  
+    for(i=0;i<j;i++){  
+        if(dp[i].id_mi<dp[i+1].id_ma&&dp[i+1].a-dp[i].a>0&&(ans==0||ans>dp[i+1].a-dp[i].a)){  
+            ans=dp[i+1].a-dp[i].a;  
+        }  
+    }  
+    cout<<ans<<endl;  
+    return 0;  
+}  
+```
