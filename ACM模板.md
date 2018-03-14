@@ -1088,3 +1088,8 @@ int main(){
     return 0;  
 }  
 ```
+
+### 30、大数运算
+http://blog.csdn.net/tt2767/article/details/45420067
+
+
