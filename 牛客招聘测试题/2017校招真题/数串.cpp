@@ -1,8 +1,3 @@
-/*
-数串
-*/
-
-
 #include <iostream>
 #include <string>
 #include <vector>
