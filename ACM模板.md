@@ -22,7 +22,7 @@ PS：本文一切代码均有C/C++编写，参与JAVA组的人可以理解思想
 
 
 
-### 1、最小公倍数gcd
+### 1、最大公约数gcd
 
 ```c++
 int gcd(int a,int b){
@@ -32,7 +32,7 @@ int gcd(int a,int b){
 
 
 
-### 2、最大公约数lcm
+### 2、最小公倍数lcm
 
 ```c++
 int gcd(int a,int b){
