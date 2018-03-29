@@ -391,7 +391,34 @@ void solve(){
     printf("%d\n",dp[W]);
 }
 ```
-
+- 多重背包（一维最简化）
+```c++
+#include <iostream>  
+#include <stdio.h>  
+#include <string.h>  
+#include <algorithm>  
+using namespace std;  
+  
+int main()  
+{  
+    int T,n,m;  
+    int v[105],w[105],num[105],dp[105];  
+    cin>>T;  
+    while(T--)  
+    {  
+        cin>>m>>n;  
+        for(int i=0;i<n;i++)  
+            cin>>v[i]>>w[i]>>num[i];  
+        memset(dp,0,sizeof(dp));  
+        for(int i=0;i<n;i++)  
+            for(int j=0;j<num[i];j++)  
+                for(int k=m;k>=v[i];k--)  
+                    dp[k]=max(dp[k],dp[k-v[i]]+w[i]);  
+        cout<<dp[m]<<endl;  
+    }  
+    return 0;  
+} 
+```
 
 
 ### 11、并查集
@@ -1136,6 +1163,7 @@ struct Trie {
 ```
 
 ### 32、全排列
+函数形式
 ```c++
 int a[10]={0,1,2,3,4,5,6,7};
 do{
@@ -1145,4 +1173,39 @@ do{
     }
     cout<<t<<endl;
 }while(next_permutation(a,a+8));
+```
+dfs形式
+```c++
+#include<stdio.h>  
+int n,a[10],book[10];//特别说明c语言全局变量没有赋值默认为 0,无需再次初始化；   
+void dfs(int step)//step 表示当前在第几个位置   
+{  
+    int i;  
+    if(step==n+1)//如果step==n+1表示前n个数字已经放好   
+    {  
+        //输出一种全排列   
+        for(i=1;i<=n;i++)  
+         printf("%d",a[i]);  
+        printf("\n");  
+       return;   
+    }  
+    //每次搜索都从1-n 一一尝试   
+    for(i=1;i<=n;i++)  
+    {  
+        if(book[i]==0)//判断次数字是否用过   
+        {  
+            a[step]=i;//存储当前位置的数字，以便满足条件输出   
+            book[i]=1;//当前数字已用过，改变标志，以防重用   
+            dfs(step+1);//放好当前位置数字之后，安排下一个数字   
+            book[i]=0;//回溯，当满足一种全排列后，进行下一种尝试   
+        }  
+    }  
+    return ;  
+}  
+int main()  
+{  
+    scanf("%d",&n);//输入只能为1-9之间的整数，表示1-n的全排列   
+    dfs(1);//从第一个位置开始   
+    return 0;  
+}  
 ```
