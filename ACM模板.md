@@ -1135,4 +1135,14 @@ struct Trie {
 };
 ```
 
-
+### 32、全排列
+```c++
+int a[10]={0,1,2,3,4,5,6,7};
+do{
+    int t = 0;
+    for(int i=0;i<8;i++){
+        t = t*10+a[i];
+    }
+    cout<<t<<endl;
+}while(next_permutation(a,a+8));
+```
