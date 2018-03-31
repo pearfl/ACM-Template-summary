@@ -517,7 +517,7 @@ int dp[MAX_W +1];
 
 void solve(){
     for(int i=0;i<n;i++){
-        for(int j=w[i];j<=W;j--){
+        for(int j=w[i];j<=W;j++){
             dp[j] = max(dp[j],dp[j-w[i]]+v[i]);
         }
     }
@@ -758,7 +758,7 @@ typedef long long ll;
 ll ksm(ll x,ll n,ll mod){
 	ll res = 1;
 	x = x % mod;
-	while(x > 0){
+	while(n > 0){
 		if(n & 1) res = res * x % mod;
 		x = x * x % mod;
 		n >>= 1;
