@@ -1420,3 +1420,82 @@ int main(){
 	return 0;
 }
 ```
+
+### 35、组合数
+求解组合数 C (n, k) % p 的三种方法：
+
+方法1(逆元求法)：
+
+```c++
+const int N = 1e5 + 10;  
+const int MOD = 1e9 + 7;  
+int f[N], finv[N], inv[N];  
+   
+void init(void) {　　　　//要求MOD是质数，预处理时间复杂度O(n)  
+    inv[1] = 1;  
+    for (int i=2; i<N; ++i) {  
+        inv[i] = (MOD - MOD / i) * 1ll * inv[MOD%i] % MOD;  
+    }  
+    f[0] = finv[0] = 1;  
+    for (int i=1; i<N; ++i) {  
+        f[i] = f[i-1] * 1ll * i % MOD;  
+        finv[i] = finv[i-1] * 1ll * inv[i] % MOD;  
+    }  
+}  
+```
+
+方法2：C(n,m)= C(n,n-m)= C(n-1,m-1)+C(n-1,m)
+```c++
+const int N = 2000 + 10;  
+const int MOD = 1e9 + 7;  
+int comb[N][N];  
+   
+void init(void) {　　　　//对MOD没有要求，预处理时间复杂度O(n^2)  
+    for (int i=0; i<N; ++i) {  
+        comb[i][i] = comb[i][0] = 1;  
+        for (int j=1; j<i; ++j) {  
+            comb[i][j] = comb[i-1][j] + comb[i-1][j-1];  
+            if (comb[i][j] >= MOD)  {  
+                comb[i][j] -= MOD;  
+            }  
+        }  
+    }  
+}  
+```
+
+方法3(Lucas定理，大组合数取模， HDOJ 3037为例)：
+```c++
+ll f[N];  
+void init(int p) {                 //f[n] = n!  
+    f[0] = 1;  
+    for (int i=1; i<=p; ++i) f[i] = f[i-1] * i % p;  
+}  
+   
+ll pow_mod(ll a, ll x, int p)   {  
+    ll ret = 1;  
+    while (x)   {  
+        if (x & 1)  ret = ret * a % p;  
+        a = a * a % p;  
+        x >>= 1;  
+    }  
+    return ret;  
+}  
+   
+ll Lucas(ll n, ll k, int p) {       //C (n, k) % p  
+     ll ret = 1;  
+     while (n && k) {  
+        ll nn = n % p, kk = k % p;  
+        if (nn < kk) return 0;                   //inv (f[kk]) = f[kk] ^ (p - 2) % p  
+        ret = ret * f[nn] * pow_mod (f[kk] * f[nn-kk] % p, p - 2, p) % p;  
+        n /= p, k /= p;  
+     }  
+     return ret;  
+}  
+   
+int main(){  
+    init (p);  
+    printf ("%I64d\n", Lucas (n + m, n, p));  
+   
+    return 0;  
+}  
+```
