@@ -1273,3 +1273,150 @@ int main()
     return 0;  
 }  
 ```
+
+### 33、01，完全，多重背包模板
+```c++
+#include<bits/stdc++.h>
+using namespace std;
+
+const int MAXN = 101;
+const int SIZE = 50001;
+
+int dp[SIZE];
+int volume[MAXN], value[MAXN], c[MAXN];
+int n, v;           //  总物品数，背包容量
+
+//  01背包
+void ZeroOnepark(int val, int vol)
+{
+    for (int j = v ; j >= vol; j--)
+    {
+        dp[j] = max(dp[j], dp[j - vol] + val);
+    }
+}
+
+//  完全背包
+void Completepark(int val, int vol)
+{
+    for (int j = vol; j <= v; j++)
+    {
+        dp[j] = max(dp[j], dp[j - vol] + val);
+    }
+}
+
+//  多重背包
+void Multiplepark(int val, int vol, int amount)
+{
+    if (vol * amount >= v)
+    {
+        Completepark(val, vol);
+    }
+    else
+    {
+        int k = 1;
+        while (k < amount)
+        {
+            ZeroOnepark(k * val, k * vol);
+            amount -= k;
+            k <<= 1;
+        }
+        if (amount > 0)
+        {
+            ZeroOnepark(amount * val, amount * vol);
+        }
+    }
+}
+
+int main()
+{
+    while (cin >> n >> v)
+    {
+        for (int i = 1 ; i <= n ; i++)
+        {
+            cin >> volume[i] >> value[i] >> c[i];      //   费用，价值，数量
+        }
+        memset(dp, 0, sizeof(dp));
+        for (int i = 1; i <= n; i++)
+        {
+            Multiplepark(value[i], volume[i], c[i]);
+        }
+        cout << dp[v] << endl;
+    }
+    return 0;
+}
+```
+
+### 34、floyd算法
+
+```c++
+/*
+样例输入 
+5 12 
+1 2 967 
+2 3 900 
+3 4 771 
+4 5 196 
+2 4 788 
+3 1 637 
+1 4 883 
+2 4 82 
+5 2 647 
+1 4 198 
+2 4 181 
+5 2 665 
+样例输出 
+0 280 637 198 394 
+280 0 853 82 278 
+637 853 0 771 967 
+198 82 771 0 196 
+394 278 967 196 0
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int INF = 100000;
+
+int d[105][1005];
+int n;
+
+int main(){
+	freopen("input.txt","r",stdin);
+	
+	int n,m,u,v,cost;
+	while(~scanf("%d %d",&n,&m)){
+		memset(d,0,sizeof(d));
+		for(int i=1;i<=n;i++){
+			for(int j=1;j<=n;j++){
+				if(i == j) d[i][j] = 0;
+				else d[i][j] = INF;
+			}
+		}
+		
+		for(int i=1;i<=m;i++){
+			scanf("%d %d %d",&u,&v,&cost);
+			d[u][v] = d[v][u] = min(cost,d[u][v]);
+		}
+		
+		for(int k=1;k<=n;k++){
+			for(int i=1;i<=n;i++){
+				for(int j=1;j<=n;j++){
+					d[i][j] = min(d[i][j],d[i][k]+d[k][j]);
+				}
+			}
+		}
+		
+		for(int i=1;i<=n;i++){
+			for(int j=1;j<=n;j++){
+				if(j!=n){
+					printf("%d ",d[i][j]);
+				}else{
+					printf("%d\n",d[i][j]);
+				}
+			}
+		}
+	}
+	
+	return 0;
+}
+```
