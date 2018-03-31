@@ -342,6 +342,75 @@ http://blog.csdn.net/laichilizi/article/details/78714582
 
 - POJ-2386，简单区域连通问题，↑
 
+```c++
+//POJ-2386
+/*
+10 12
+W........WW.
+.WWW.....WWW
+....WW...WW.
+.........WW.
+.........W..
+..W......W..
+.W.W.....WW.
+W.W.W.....W.
+.W.W......W.
+..W.......W.
+*/
+/*
+3
+*/
+
+#include<cstdio>  
+#include<cstring>  
+#include<algorithm>  
+using namespace std;  
+typedef long long ll;  
+  
+int n,m;  
+char field[105][105]; //园子  
+  
+void dfs(int x,int y){  
+    field[x][y]='.';  
+    for(int dx = -1;dx <= 1;dx++){  
+        for(int dy = -1;dy <= 1;dy++){  
+            int nx=x+dx,ny=y+dy;  
+            if(nx>=0 && nx<n && ny<m && ny>=0 && field[nx][ny] =='W') dfs(nx,ny);  
+        }  
+    }  
+    return ;  
+}  
+  
+void solve(){  
+    int res = 0;  
+    for(int i=0;i<n;i++){  
+        for(int j=0;j<m;j++){  
+            if(field[i][j]=='W'){  
+                dfs(i,j);  
+                res++;  
+            }  
+        }  
+    }  
+    printf("%d\n",res);  
+}  
+  
+void init(){  
+    scanf("%d %d",&n,&m);  
+    for(int i=0;i<n;i++)  
+        scanf("%s",field[i]);  
+}  
+  
+int main()  
+{  
+    //freopen("input.txt","r",stdin);  
+    init();  
+    solve();  
+  
+  
+    return 0;  
+}
+```
+
 
 
 ### 10、动态规划（01背包，完全背包）
@@ -1452,7 +1521,8 @@ int comb[N][N];
    
 void init(void) {　　　　//对MOD没有要求，预处理时间复杂度O(n^2)  
     for (int i=0; i<N; ++i) {  
-        comb[i][i] = comb[i][0] = 1;  
+        comb[i][i] = comb[i
+        ][0] = 1;  
         for (int j=1; j<i; ++j) {  
             comb[i][j] = comb[i-1][j] + comb[i-1][j-1];  
             if (comb[i][j] >= MOD)  {  
