@@ -1293,6 +1293,25 @@ struct Trie {
         return cnt[p];
     }
 };
+
+/*
+char now[MAX_LEN];
+void dfs(int p, int len) {
+    if (cnt[p] > 0) {
+        now[len] = '\0';
+        while (cnt[p] --> 0) {
+            cout << now << endl;
+        }
+    }
+    for (int i = 0; i < 26; ++i) {
+        if (ch[p][i]) {
+            now[len] = 'a' + i;
+            dfs(ch[p][i], len + 1);
+        }
+    }
+}
+*/
+
 ```
 
 ### 32、全排列
